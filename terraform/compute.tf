@@ -25,6 +25,8 @@ resource "aws_instance" "devsecops_server" {
 
   associate_public_ip_address = true
 
+  user_data_base64 = filebase64("${path.module}/userdata/install.sh")
+
   root_block_device {
     volume_size = 10
     volume_type = "gp3"
@@ -32,5 +34,16 @@ resource "aws_instance" "devsecops_server" {
 
   tags = {
     Name = "${var.project_name}-EC2"
+  }
+}
+# Elastic IP
+resource "aws_eip" "devsecops_eip" {
+
+  domain = "vpc"
+
+  instance = aws_instance.devsecops_server.id
+
+  tags = {
+    Name = "${var.project_name}-EIP"
   }
 }

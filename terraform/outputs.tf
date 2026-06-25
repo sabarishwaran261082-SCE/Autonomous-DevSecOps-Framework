@@ -12,3 +12,9 @@ output "public_ip" {
 output "public_dns" {
   value = aws_instance.devsecops_server.public_dns
 }
+
+output "elastic_ip" {
+  description = "Elastic IP Address"
+
+  value = aws_eip.devsecops_eip.public_ip
+}
