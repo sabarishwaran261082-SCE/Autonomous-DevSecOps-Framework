@@ -29,7 +29,11 @@ jobs:
       run: |
         cd app
         python -m pytest
-
+    
+    - name: Build Docker Image
+      run: |
+         docker build -t autonomous-devsecops ./app
+         
     - name: Verify Python Version
       run: python --version
 
