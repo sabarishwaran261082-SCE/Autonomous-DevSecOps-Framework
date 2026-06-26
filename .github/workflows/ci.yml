@@ -179,3 +179,25 @@ jobs:
 
           Regards,
           Autonomous DevSecOps Framework
+
+    - name: Send Slack Success Notification
+      if: success()
+      uses: slackapi/slack-github-action@v1.27.0
+      with:
+        payload: |
+          {
+            "text": "✅ *Autonomous DevSecOps Pipeline SUCCESS*\n\nRepository: ${{ github.repository }}\nBranch: ${{ github.ref_name }}\nCommit: ${{ github.sha }}\nDeployment: EC2 Successful 🚀"
+          }
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    - name: Send Slack Failure Notification
+      if: failure()
+      uses: slackapi/slack-github-action@v1.27.0
+      with:
+        payload: |
+          {
+            "text": "❌ *Autonomous DevSecOps Pipeline FAILED*\n\nRepository: ${{ github.repository }}\nBranch: ${{ github.ref_name }}\nCommit: ${{ github.sha }}\nDeployment: Blocked"
+          }
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
