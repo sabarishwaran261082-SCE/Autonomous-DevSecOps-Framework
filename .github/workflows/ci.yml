@@ -46,7 +46,7 @@ jobs:
     - name: Run Bandit Security Scan
       run: |
         cd app
-        python -m bandit -r app.py || true
+        python -m bandit -r app.py -f json -o bandit-report.json || true
 
     - name: Build Docker Image
       env:
@@ -59,17 +59,20 @@ jobs:
     - name: Run Trivy Vulnerability Scanner
       uses: aquasecurity/trivy-action@master
       with:
-         image-ref: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:latest
-         format: table
-         exit-code: 0
-         ignore-unfixed: true
-         vuln-type: 'os,library'
-         severity: 'CRITICAL,HIGH'   
+        image-ref: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:latest
+        format: json
+        output: trivy-report.json
+        exit-code: 0
+        ignore-unfixed: true
+        vuln-type: 'os,library'
+        severity: 'CRITICAL,HIGH'
 
     - name: Run Gitleaks Secret Scan
       uses: gitleaks/gitleaks-action@v2
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         GITLEAKS_ENABLE_UPLOAD_ARTIFACT: false
+         GITLEAKS_ENABLE_SUMMARY: true
 
     - name: Push Docker Image to Amazon ECR
       env:
@@ -93,4 +96,4 @@ jobs:
           docker ps
     
     - name: CI Pipeline Completed
-      run: echo "Phase 7.4 completed successfully!"
+      run: echo "Phase 7.5.1 completed successfully!"
