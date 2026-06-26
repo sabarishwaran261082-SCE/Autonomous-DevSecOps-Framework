@@ -201,3 +201,40 @@ jobs:
           }
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    - name: Send Discord Success Notification
+      if: success()
+      uses: Ilshidur/action-discord@master
+      env:
+        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      with:
+        args: |
+          ✅ **Autonomous DevSecOps Pipeline SUCCESS**
+
+          Repository: ${{ github.repository }}
+
+          Branch: ${{ github.ref_name }}
+
+          Commit: ${{ github.sha }}
+
+          Deployment: EC2 Successful 🚀
+
+    - name: Send Discord Failure Notification
+      if: failure()
+      uses: Ilshidur/action-discord@master
+      env:
+        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      with:
+        args: |
+          ❌ **Autonomous DevSecOps Pipeline FAILED**
+
+          Repository: ${{ github.repository }}
+
+          Branch: ${{ github.ref_name }}
+
+          Commit: ${{ github.sha }}
+
+          Deployment: Failed
+
+          Please check GitHub Actions logs.
+          
