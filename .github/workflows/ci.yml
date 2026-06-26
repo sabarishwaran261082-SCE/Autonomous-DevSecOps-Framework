@@ -120,7 +120,7 @@ jobs:
           docker ps
     
     - name: CI Pipeline Completed
-      run: echo "Phase 7.5.2 (Gitleaks Report Added) completed successfully!"
+      run: echo "Phase 8.1.4 completed successfully!"
 
     - name: Send Success Email
       if: success()
@@ -148,6 +148,34 @@ jobs:
           Docker Image : Built Successfully
 
           Deployment : EC2 Deployment Successful
+
+          Regards,
+          Autonomous DevSecOps Framework
+
+    - name: Send Failure Email
+      if: failure()
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.gmail.com
+        server_port: 465
+        secure: true
+
+        username: ${{ secrets.EMAIL_USERNAME }}
+        password: ${{ secrets.EMAIL_PASSWORD }}
+
+        subject: "❌ Autonomous DevSecOps Pipeline FAILED"
+
+        to: ${{ secrets.EMAIL_USERNAME }}
+        from: ${{ secrets.EMAIL_USERNAME }}
+
+        body: |
+          Project : Autonomous DevSecOps Framework
+
+          Pipeline Status : FAILED
+
+          Deployment : Blocked
+
+          Please check the GitHub Actions logs for more details.
 
           Regards,
           Autonomous DevSecOps Framework
