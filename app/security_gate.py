@@ -1,45 +1,46 @@
 import json
 import os
 
-print("========== SECURITY GATE ==========")
+print("========== SECURITY GATE ==========\n")
 
 # -----------------------------
-# Read Bandit Report
+# Bandit
 # -----------------------------
-bandit_file = "bandit-report.json"
+bandit_issues = 0
 
-if os.path.exists(bandit_file):
-    with open(bandit_file, "r") as file:
+if os.path.exists("bandit-report.json"):
+    with open("bandit-report.json", "r") as file:
         bandit = json.load(file)
+        bandit_issues = len(bandit.get("results", []))
 
-    print("Bandit report loaded successfully.")
-else:
-    print("Bandit report not found.")
+print(f"Bandit Issues          : {bandit_issues}")
 
 # -----------------------------
-# Read Trivy Report
+# Trivy
 # -----------------------------
-trivy_file = "../trivy-report.json"
+trivy_vulnerabilities = 0
 
-if os.path.exists(trivy_file):
-    with open(trivy_file, "r") as file:
+if os.path.exists("../trivy-report.json"):
+    with open("../trivy-report.json", "r") as file:
         trivy = json.load(file)
 
-    print("Trivy report loaded successfully.")
-else:
-    print("Trivy report not found.")
+        for result in trivy.get("Results", []):
+            trivy_vulnerabilities += len(result.get("Vulnerabilities", []))
+
+print(f"Trivy Vulnerabilities  : {trivy_vulnerabilities}")
 
 # -----------------------------
-# Read Gitleaks Report
+# Gitleaks
 # -----------------------------
-gitleaks_file = "../gitleaks-report.json"
+gitleaks_secrets = 0
 
-if os.path.exists(gitleaks_file):
-    with open(gitleaks_file, "r") as file:
+if os.path.exists("../gitleaks-report.json"):
+    with open("../gitleaks-report.json", "r") as file:
         gitleaks = json.load(file)
 
-    print("Gitleaks report loaded successfully.")
-else:
-    print("Gitleaks report not found.")
+        if isinstance(gitleaks, list):
+            gitleaks_secrets = len(gitleaks)
 
-print("===================================")
+print(f"Gitleaks Secrets       : {gitleaks_secrets}")
+
+print("\n===================================")
