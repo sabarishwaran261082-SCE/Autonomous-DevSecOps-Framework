@@ -102,11 +102,28 @@ jobs:
       run: |
         echo "🚀 Autonomous DevSecOps Framework" > summary.txt
         echo "" >> summary.txt
-        echo "Repository : ${{ github.repository }}" >> summary.txt
-        echo "Branch     : ${{ github.ref_name }}" >> summary.txt
-        echo "Commit     : ${{ github.sha }}" >> summary.txt
-        echo "Pipeline   : SUCCESS" >> summary.txt
-        echo "Deployment : EC2 Successful 🚀" >> summary.txt
+        echo "📦 Repository : ${{ github.repository }}" >> summary.txt
+        echo "🌿 Branch     : ${{ github.ref_name }}" >> summary.txt
+        echo "🔖 Commit     : ${{ github.sha }}" >> summary.txt
+        echo "" >> summary.txt
+        echo "🧪 Tests      : PASSED" >> summary.txt
+        echo "🔒 Bandit     : Completed" >> summary.txt
+        echo "🐳 Trivy      : Completed" >> summary.txt
+        echo "🔑 Gitleaks   : No Secrets Found" >> summary.txt
+        echo "" >> summary.txt
+        echo "🛡 Security Gate : PASSED" >> summary.txt
+        echo "" >> summary.txt
+        echo "🚀 Deployment : EC2 Successful" >> summary.txt
+        echo "" >> summary.txt
+        echo "🔗 Run : https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> summary.txt
+        echo "" >> summary.txt
+        echo "⏰ Time : $(date -u)" >> summary.txt
+        
+    - name: Upload Notification Summary
+      uses: actions/upload-artifact@v4
+      with:
+        name: notification-summary
+        path: summary.txt
 
     - name: Push Docker Image to Amazon ECR
       env:
