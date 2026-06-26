@@ -73,6 +73,15 @@ jobs:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          GITLEAKS_ENABLE_UPLOAD_ARTIFACT: false
          GITLEAKS_ENABLE_SUMMARY: true
+    
+    - name: Upload Security Reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: security-reports
+        path: |
+          app/bandit-report.json
+          trivy-report.json
+        if-no-files-found: warn
 
     - name: Push Docker Image to Amazon ECR
       env:
@@ -96,4 +105,4 @@ jobs:
           docker ps
     
     - name: CI Pipeline Completed
-      run: echo "Phase 7.5.1 completed successfully!"
+      run: echo "Phase 7.5.2 completed successfully!"
