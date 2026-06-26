@@ -42,5 +42,17 @@ if os.path.exists("../gitleaks-report.json"):
             gitleaks_secrets = len(gitleaks)
 
 print(f"Gitleaks Secrets       : {gitleaks_secrets}")
-
 print("\n===================================")
+
+# -----------------------------------
+# Security Decision
+# -----------------------------------
+
+if (
+    bandit_issues == 0
+    and trivy_vulnerabilities == 0
+    and gitleaks_secrets == 0
+):
+    print("\n✅ SECURITY GATE PASSED")
+else:
+    print("\n❌ SECURITY GATE FAILED")
