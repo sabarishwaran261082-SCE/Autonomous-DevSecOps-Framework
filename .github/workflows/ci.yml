@@ -92,6 +92,11 @@ jobs:
           trivy-report.json
           gitleaks-report.json
         if-no-files-found: warn
+  
+    - name: Run Security Gate
+      run: |
+        cd app
+        python security_gate.py
 
     - name: Push Docker Image to Amazon ECR
       env:
