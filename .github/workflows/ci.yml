@@ -7,7 +7,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -15,27 +14,43 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
 
+    - name: Verify Python Version
+      run: python --version
+
     - name: Install Dependencies
       run: |
         cd app
         pip install -r requirements.txt
-    
+
     - name: Run Unit Tests
       run: |
         cd app
         python -m pytest
-    
-    - name: Build Docker Image
+
+    - name: Build and Push Docker Image
+      env:
+        REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+        IMAGE_TAG: latest
       run: |
-         docker build -t autonomous-devsecops ./app
-         
-    - name: Verify Python Version
-      run: python --version
+        docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG ./app
+        docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
     - name: CI Pipeline Completed
-      run: echo "Phase 6.1 completed successfully!"
+      run: echo "Phase 6.4 completed successfully!"
