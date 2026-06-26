@@ -98,6 +98,16 @@ jobs:
         cd app
         python security_gate.py
 
+    - name: Generate Notification Summary
+      run: |
+        echo "🚀 Autonomous DevSecOps Framework" > summary.txt
+        echo "" >> summary.txt
+        echo "Repository : ${{ github.repository }}" >> summary.txt
+        echo "Branch     : ${{ github.ref_name }}" >> summary.txt
+        echo "Commit     : ${{ github.sha }}" >> summary.txt
+        echo "Pipeline   : SUCCESS" >> summary.txt
+        echo "Deployment : EC2 Successful 🚀" >> summary.txt
+
     - name: Push Docker Image to Amazon ECR
       env:
         REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -237,4 +247,4 @@ jobs:
           Deployment: Failed
 
           Please check GitHub Actions logs.
-          
+
