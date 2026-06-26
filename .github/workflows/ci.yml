@@ -43,6 +43,11 @@ jobs:
         cd app
         python -m pytest
 
+    - name: Run Bandit Security Scan
+      run: |
+        cd app
+        python -m bandit -r app.py
+        
     - name: Build and Push Docker Image
       env:
         REGISTRY: ${{ steps.login-ecr.outputs.registry }}
