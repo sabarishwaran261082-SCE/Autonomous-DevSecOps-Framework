@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 
 print("========== SECURITY GATE ==========\n")
 
@@ -56,3 +57,5 @@ if (
     print("\n✅ SECURITY GATE PASSED")
 else:
     print("\n❌ SECURITY GATE FAILED")
+    print("Deployment Blocked!")
+    sys.exit(1)
