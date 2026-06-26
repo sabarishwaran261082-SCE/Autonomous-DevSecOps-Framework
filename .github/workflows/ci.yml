@@ -65,7 +65,12 @@ jobs:
          ignore-unfixed: true
          vuln-type: 'os,library'
          severity: 'CRITICAL,HIGH'   
-    
+
+    - name: Run Gitleaks Secret Scan
+      uses: gitleaks/gitleaks-action@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Push Docker Image to Amazon ECR
       env:
         REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -73,7 +78,7 @@ jobs:
         IMAGE_TAG: latest
       run: |
          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-
+   
     - name: Deploy to EC2
       uses: appleboy/ssh-action@v1.0.3
       with:
@@ -88,4 +93,4 @@ jobs:
           docker ps
     
     - name: CI Pipeline Completed
-      run: echo "Phase 7.3 completed successfully!"
+      run: echo "Phase 7.4 completed successfully!"
