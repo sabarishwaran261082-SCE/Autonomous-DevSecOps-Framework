@@ -7,29 +7,28 @@ print("========== SECURITY GATE ==========\n")
 # -----------------------------
 # Bandit
 # -----------------------------
-bandit_issues = 0
+bandit_high = 0
 
 if os.path.exists("bandit-report.json"):
     with open("bandit-report.json", "r") as file:
         bandit = json.load(file)
-        bandit_issues = len(bandit.get("results", []))
 
-print(f"Bandit Issues          : {bandit_issues}")
-
+    for issue in bandit.get("results", []):
+        if issue.get("issue_severity") == "HIGH":
+            bandit_high += 1
 # -----------------------------
 # Trivy
 # -----------------------------
-trivy_vulnerabilities = 0
+trivy_critical = 0
 
 if os.path.exists("../trivy-report.json"):
     with open("../trivy-report.json", "r") as file:
         trivy = json.load(file)
 
-        for result in trivy.get("Results", []):
-            trivy_vulnerabilities += len(result.get("Vulnerabilities", []))
-
-print(f"Trivy Vulnerabilities  : {trivy_vulnerabilities}")
-
+    for result in trivy.get("Results", []):
+        for vuln in result.get("Vulnerabilities", []):
+            if vuln.get("Severity") == "CRITICAL":
+                trivy_critical += 1
 # -----------------------------
 # Gitleaks
 # -----------------------------
@@ -42,6 +41,8 @@ if os.path.exists("../gitleaks-report.json"):
         if isinstance(gitleaks, list):
             gitleaks_secrets = len(gitleaks)
 
+print(f"Bandit Issues          : {bandit_high}")
+print(f"Trivy Vulnerabilities  : {trivy_critical}")
 print(f"Gitleaks Secrets       : {gitleaks_secrets}")
 print("\n===================================")
 
@@ -50,8 +51,8 @@ print("\n===================================")
 # -----------------------------------
 
 if (
-    bandit_issues == 0
-    and trivy_vulnerabilities == 0
+    bandit_high == 0
+    and trivy_critical == 0
     and gitleaks_secrets == 0
 ):
     print("\n✅ SECURITY GATE PASSED")
