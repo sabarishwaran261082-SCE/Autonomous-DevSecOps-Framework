@@ -88,6 +88,48 @@ jobs:
       run: |
         cd app
         python security_gate.py
+    
+    - name: Generate Security Summary
+      run: |
+       cd app
+
+       echo "Current directory:"
+       pwd
+
+       echo "Files before generating summary:"
+       ls -la
+
+       python generate_summary.py
+
+       echo "========================="
+       echo "Files after summary step"
+       echo "========================="
+       ls -la
+
+       echo "========================="
+       echo "Summary Content"
+       echo "========================="
+       cat security-summary.json || echo "Summary NOT created"
+
+    - name: Debug Security Summary
+      run: |
+         cd app
+
+         echo "Current Directory:"
+         pwd
+
+         echo "Files in app:"
+         ls -la
+
+         echo ""
+         echo "Checking security-summary.json..."
+
+         if [ -f security-summary.json ]; then
+          echo "✅ security-summary.json exists"
+          cat security-summary.json
+         else
+          echo "❌ security-summary.json NOT FOUND"
+         fi
 
     - name: Run AI Root Cause Analyzer
       env:
@@ -104,6 +146,7 @@ jobs:
           app/bandit-report.json
           app/trivy-report.json
           app/gitleaks-report.json
+          app/security-summary.json
           app/ai-security-report.md
         if-no-files-found: warn
 
