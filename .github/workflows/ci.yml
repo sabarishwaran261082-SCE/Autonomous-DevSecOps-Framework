@@ -98,6 +98,13 @@ jobs:
         cd app
         python security_gate.py
 
+    - name: Run AI Root Cause Analyzer
+      env:
+        HF_API_TOKEN: ${{ secrets.HF_API_TOKEN }}
+      run: |
+        cd app
+        python ai_root_cause.py
+
     - name: Generate Notification Summary
       run: |
         echo "🚀 Autonomous DevSecOps Framework" > summary.txt
