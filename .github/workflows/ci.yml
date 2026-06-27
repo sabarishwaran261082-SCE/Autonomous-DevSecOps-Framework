@@ -1,3 +1,4 @@
+
 name: Autonomous DevSecOps CI
 
 on:
@@ -61,7 +62,7 @@ jobs:
       with:
         image-ref: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:latest
         format: json
-        output: trivy-report.json
+        output: app/trivy-report.json
         exit-code: 0
         ignore-unfixed: true
         vuln-type: 'os,library'
@@ -70,30 +71,19 @@ jobs:
     - name: Run Gitleaks Secret Scan
       uses: gitleaks/gitleaks-action@v2
       env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-         GITLEAKS_ENABLE_UPLOAD_ARTIFACT: false
-         GITLEAKS_ENABLE_SUMMARY: true
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITLEAKS_ENABLE_UPLOAD_ARTIFACT: false
+        GITLEAKS_ENABLE_SUMMARY: true
 
     - name: Generate Gitleaks JSON Report
       run: |
-         docker run --rm \
-           -v ${{ github.workspace }}:/repo \
-           zricethezav/gitleaks:latest detect \
-           --source=/repo \
-           --report-format=json \
-           --report-path=/repo/gitleaks-report.json
-    
-    - name: Upload Security Reports
-      uses: actions/upload-artifact@v4
-      with:
-         name: security-reports
-         path: |
-            app/bandit-report.json
-            app/trivy-report.json
-            app/gitleaks-report.json
-            app/ai-security-report.md
-         if-no-files-found: warn
-  
+        docker run --rm \
+          -v ${{ github.workspace }}:/repo \
+          zricethezav/gitleaks:latest detect \
+          --source=/repo \
+          --report-format=json \
+          --report-path=/repo/app/gitleaks-report.json
+
     - name: Run Security Gate
       run: |
         cd app
@@ -106,6 +96,17 @@ jobs:
         cd app
         python ai_root_cause.py
 
+    - name: Upload Security Reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: security-reports
+        path: |
+          app/bandit-report.json
+          app/trivy-report.json
+          app/gitleaks-report.json
+          app/ai-security-report.md
+        if-no-files-found: warn
+
     - name: Generate Notification Summary
       run: |
         echo "🚀 Autonomous DevSecOps Framework" > summary.txt
@@ -117,7 +118,8 @@ jobs:
         echo "🧪 Tests      : PASSED" >> summary.txt
         echo "🔒 Bandit     : Completed" >> summary.txt
         echo "🐳 Trivy      : Completed" >> summary.txt
-        echo "🔑 Gitleaks   : No Secrets Found" >> summary.txt
+        echo "🔑 Gitleaks   : Completed" >> summary.txt
+        echo "🤖 AI Report  : Generated" >> summary.txt
         echo "" >> summary.txt
         echo "🛡 Security Gate : PASSED" >> summary.txt
         echo "" >> summary.txt
@@ -126,7 +128,7 @@ jobs:
         echo "🔗 Run : https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> summary.txt
         echo "" >> summary.txt
         echo "⏰ Time : $(date -u)" >> summary.txt
-        
+
     - name: Upload Notification Summary
       uses: actions/upload-artifact@v4
       with:
@@ -139,8 +141,8 @@ jobs:
         REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
         IMAGE_TAG: latest
       run: |
-         docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-   
+        docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+
     - name: Deploy to EC2
       uses: appleboy/ssh-action@v1.0.3
       with:
@@ -153,9 +155,9 @@ jobs:
           chmod +x deploy.sh
           ./deploy.sh
           docker ps
-    
+
     - name: CI Pipeline Completed
-      run: echo "Phase 8.1.4 completed successfully!"
+      run: echo "Pipeline completed successfully!"
 
     - name: Send Success Email
       if: success()
@@ -164,28 +166,16 @@ jobs:
         server_address: smtp.gmail.com
         server_port: 465
         secure: true
-
         username: ${{ secrets.EMAIL_USERNAME }}
         password: ${{ secrets.EMAIL_PASSWORD }}
-
         subject: "✅ Autonomous DevSecOps Pipeline SUCCESS"
-
         to: ${{ secrets.EMAIL_USERNAME }}
         from: ${{ secrets.EMAIL_USERNAME }}
-
         body: |
           Project : Autonomous DevSecOps Framework
-
           Pipeline Status : SUCCESS
-
-          Security Gate : PASSED
-
-          Docker Image : Built Successfully
-
-          Deployment : EC2 Deployment Successful
-
-          Regards,
-          Autonomous DevSecOps Framework
+          AI Security Report : Generated
+          Deployment : EC2 Successful
 
     - name: Send Failure Email
       if: failure()
@@ -194,26 +184,15 @@ jobs:
         server_address: smtp.gmail.com
         server_port: 465
         secure: true
-
         username: ${{ secrets.EMAIL_USERNAME }}
         password: ${{ secrets.EMAIL_PASSWORD }}
-
         subject: "❌ Autonomous DevSecOps Pipeline FAILED"
-
         to: ${{ secrets.EMAIL_USERNAME }}
         from: ${{ secrets.EMAIL_USERNAME }}
-
         body: |
           Project : Autonomous DevSecOps Framework
-
           Pipeline Status : FAILED
-
           Deployment : Blocked
-
-          Please check the GitHub Actions logs for more details.
-
-          Regards,
-          Autonomous DevSecOps Framework
 
     - name: Send Slack Success Notification
       if: success()
