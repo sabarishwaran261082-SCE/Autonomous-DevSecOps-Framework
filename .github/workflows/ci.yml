@@ -86,12 +86,13 @@ jobs:
     - name: Upload Security Reports
       uses: actions/upload-artifact@v4
       with:
-        name: security-reports
-        path: |
-          app/bandit-report.json
-          trivy-report.json
-          gitleaks-report.json
-        if-no-files-found: warn
+         name: security-reports
+         path: |
+            app/bandit-report.json
+            app/trivy-report.json
+            app/gitleaks-report.json
+            app/ai-security-report.md
+         if-no-files-found: warn
   
     - name: Run Security Gate
       run: |

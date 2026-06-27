@@ -108,6 +108,15 @@ if response.status_code == 200:
 
     print(ai_report)
 
+    # -----------------------------------
+    # Save AI Report
+    # -----------------------------------
+    with open("ai-security-report.md", "w", encoding="utf-8") as report_file:
+        report_file.write("# 🤖 AI Security Report\n\n")
+        report_file.write(ai_report)
+
+    print("\nAI Security Report saved as ai-security-report.md")
+
 else:
 
     print("Error:", response.status_code)
