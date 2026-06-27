@@ -138,6 +138,11 @@ jobs:
         cd app
         python ai_root_cause.py
 
+    - name: Run AI Deployment Gate
+      run: |
+        cd app
+        python ai_deployment_gate.py
+
     - name: Upload Security Reports
       uses: actions/upload-artifact@v4
       with:
@@ -148,6 +153,8 @@ jobs:
           app/gitleaks-report.json
           app/security-summary.json
           app/ai-security-report.md
+          app/deployment-decision.json
+          
         if-no-files-found: warn
 
     - name: Generate Notification Summary

@@ -91,11 +91,56 @@ if response.status_code == 200:
 
     print(ai_report)
 
+    # -----------------------------------
+    # Save AI Markdown Report
+    # -----------------------------------
     with open("ai-security-report.md", "w", encoding="utf-8") as report_file:
         report_file.write("# 🤖 AI Security Report\n\n")
         report_file.write(ai_report)
 
     print("\n✅ ai-security-report.md generated successfully.")
+
+    # -----------------------------------
+    # Generate Deployment Decision JSON
+    # -----------------------------------
+    deployment = {
+        "deployment_decision": "APPROVED",
+        "overall_risk": "LOW",
+        "security_score": 95,
+        "confidence": 98,
+        "reason": "No critical vulnerabilities or secrets detected."
+    }
+
+    report_upper = ai_report.upper()
+
+    if "CRITICAL" in report_upper:
+        deployment["deployment_decision"] = "NOT APPROVED"
+        deployment["overall_risk"] = "CRITICAL"
+        deployment["security_score"] = 20
+        deployment["confidence"] = 99
+        deployment["reason"] = "Critical vulnerabilities detected."
+
+    elif "HIGH RISK" in report_upper:
+        deployment["deployment_decision"] = "NOT APPROVED"
+        deployment["overall_risk"] = "HIGH"
+        deployment["security_score"] = 45
+        deployment["confidence"] = 97
+        deployment["reason"] = "High-risk vulnerabilities detected."
+
+    elif "MEDIUM" in report_upper:
+        deployment["deployment_decision"] = "APPROVED WITH CAUTION"
+        deployment["overall_risk"] = "MEDIUM"
+        deployment["security_score"] = 75
+        deployment["confidence"] = 95
+        deployment["reason"] = "Medium severity findings detected."
+
+    # -----------------------------------
+    # Save Deployment Decision
+    # -----------------------------------
+    with open("deployment-decision.json", "w", encoding="utf-8") as f:
+        json.dump(deployment, f, indent=4)
+
+    print("✅ deployment-decision.json generated successfully.")
 
 else:
 
