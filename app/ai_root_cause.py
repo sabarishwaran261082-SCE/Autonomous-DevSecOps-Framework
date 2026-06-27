@@ -1,4 +1,5 @@
 import os
+import json
 import requests
 
 # -----------------------------------
@@ -14,29 +15,15 @@ headers = {
 }
 
 # -----------------------------------
-# Read Security Reports
+# Read Security Summary
 # -----------------------------------
-reports = []
+summary_file = "security-summary.json"
 
-# Bandit Report
-if os.path.exists("bandit-report.json"):
-    with open("bandit-report.json", "r") as f:
-        reports.append("===== BANDIT REPORT =====")
-        reports.append(f.read())
+if not os.path.exists(summary_file):
+    raise FileNotFoundError("security-summary.json not found.")
 
-# Trivy Report
-if os.path.exists("trivy-report.json"):
-    with open("trivy-report.json", "r") as f:
-        reports.append("===== TRIVY REPORT =====")
-        reports.append(f.read())
-
-# Gitleaks Report
-if os.path.exists("gitleaks-report.json"):
-    with open("gitleaks-report.json", "r") as f:
-        reports.append("===== GITLEAKS REPORT =====")
-        reports.append(f.read())
-
-combined_report = "\n\n".join(reports)
+with open(summary_file, "r", encoding="utf-8") as f:
+    security_summary = json.load(f)
 
 # -----------------------------------
 # Build AI Prompt
@@ -44,37 +31,33 @@ combined_report = "\n\n".join(reports)
 prompt = f"""
 You are a Senior DevSecOps Security Engineer.
 
-Analyze the following security reports and generate a professional security assessment.
+Analyze the following security summary JSON.
 
-Provide your response in the following format:
+Generate a professional security assessment.
 
-# AI SECURITY REPORT
+Return the report in Markdown format.
+
+Include:
+
+# AI Security Report
 
 ## Overall Risk
-(LOW / MEDIUM / HIGH / CRITICAL)
 
 ## Executive Summary
 
-## Bandit Findings
-
-## Trivy Findings
-
-## Gitleaks Findings
-
 ## Root Cause Analysis
 
-## Recommended Fixes
+## Recommendations
 
 ## Deployment Decision
-(APPROVED or NOT APPROVED)
 
-Security Reports:
+Security Summary:
 
-{combined_report}
+{json.dumps(security_summary, indent=2)}
 """
 
 # -----------------------------------
-# Send Request to Hugging Face
+# Send Request
 # -----------------------------------
 payload = {
     "model": "meta-llama/Llama-3.1-8B-Instruct",
@@ -84,7 +67,7 @@ payload = {
             "content": prompt
         }
     ],
-    "max_tokens": 800
+    "max_tokens": 700
 }
 
 response = requests.post(
@@ -103,19 +86,16 @@ if response.status_code == 200:
     ai_report = result["choices"][0]["message"]["content"]
 
     print("\n===================================")
-    print("      AI SECURITY REPORT")
+    print("AI SECURITY REPORT")
     print("===================================\n")
 
     print(ai_report)
 
-    # -----------------------------------
-    # Save AI Report
-    # -----------------------------------
     with open("ai-security-report.md", "w", encoding="utf-8") as report_file:
         report_file.write("# 🤖 AI Security Report\n\n")
         report_file.write(ai_report)
 
-    print("\nAI Security Report saved as ai-security-report.md")
+    print("\n✅ ai-security-report.md generated successfully.")
 
 else:
 
