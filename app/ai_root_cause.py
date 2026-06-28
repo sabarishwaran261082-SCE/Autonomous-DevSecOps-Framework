@@ -1,6 +1,7 @@
 import os
 import json
 import requests
+from datetime import datetime
 
 # -----------------------------------
 # Hugging Face Configuration
@@ -57,7 +58,7 @@ Security Summary:
 """
 
 # -----------------------------------
-# Send Request
+# Send Request to Hugging Face
 # -----------------------------------
 payload = {
     "model": "meta-llama/Llama-3.1-8B-Instruct",
@@ -101,36 +102,65 @@ if response.status_code == 200:
     print("\n✅ ai-security-report.md generated successfully.")
 
     # -----------------------------------
-    # Generate Deployment Decision JSON
+    # Read Security Metrics
+    # -----------------------------------
+    bandit_issues = security_summary.get("bandit", {}).get("total_issues", 0)
+    trivy_vulnerabilities = security_summary.get("trivy", {}).get("total_vulnerabilities", 0)
+    gitleaks_secrets = security_summary.get("gitleaks", {}).get("total_secrets", 0)
+
+    # -----------------------------------
+    # Calculate Security Score
+    # -----------------------------------
+    security_score = 100
+
+    security_score -= bandit_issues * 5
+    security_score -= trivy_vulnerabilities * 10
+    security_score -= gitleaks_secrets * 20
+
+    security_score = max(security_score, 0)
+
+    # -----------------------------------
+    # Default Deployment Decision
     # -----------------------------------
     deployment = {
-        "deployment_decision": "APPROVED",
+        "project": "Autonomous DevSecOps Framework",
+        "generated_at": datetime.now().astimezone().isoformat(),
+
         "overall_risk": "LOW",
-        "security_score": 95,
+        "security_score": security_score,
         "confidence": 98,
-        "reason": "No critical vulnerabilities or secrets detected."
+
+        "deployment_decision": "APPROVED",
+        "reason": "Low overall risk.",
+
+        "bandit_issues": bandit_issues,
+        "trivy_vulnerabilities": trivy_vulnerabilities,
+        "gitleaks_secrets": gitleaks_secrets
     }
 
+    # -----------------------------------
+    # AI Decision Logic
+    # -----------------------------------
     report_upper = ai_report.upper()
 
     if "CRITICAL" in report_upper:
         deployment["deployment_decision"] = "NOT APPROVED"
         deployment["overall_risk"] = "CRITICAL"
-        deployment["security_score"] = 20
+        deployment["security_score"] = min(deployment["security_score"], 20)
         deployment["confidence"] = 99
         deployment["reason"] = "Critical vulnerabilities detected."
 
     elif "HIGH RISK" in report_upper:
         deployment["deployment_decision"] = "NOT APPROVED"
         deployment["overall_risk"] = "HIGH"
-        deployment["security_score"] = 45
+        deployment["security_score"] = min(deployment["security_score"], 45)
         deployment["confidence"] = 97
         deployment["reason"] = "High-risk vulnerabilities detected."
 
     elif "MEDIUM" in report_upper:
         deployment["deployment_decision"] = "APPROVED WITH CAUTION"
         deployment["overall_risk"] = "MEDIUM"
-        deployment["security_score"] = 75
+        deployment["security_score"] = min(deployment["security_score"], 75)
         deployment["confidence"] = 95
         deployment["reason"] = "Medium severity findings detected."
 
@@ -143,6 +173,5 @@ if response.status_code == 200:
     print("✅ deployment-decision.json generated successfully.")
 
 else:
-
     print("Error:", response.status_code)
     print(response.text)

@@ -1,28 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="/static/style.css">
+
+    <meta charset="UTF-8">
+
+    <title>AI Security Dashboard</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 </head>
+
 <body>
 
-<h1>DevSecOps Dashboard</h1>
+<div class="container">
 
-<hr>
+    <h1>🤖 Autonomous DevSecOps Framework</h1>
 
-<h3>Deployment Status : SUCCESS</h3>
+    <div class="cards">
 
-<h3>Security Score : 92%</h3>
+        <div class="card">
+            <h2>Security Score</h2>
+            <p>{{ ai.security_score }}/100</p>
+        </div>
 
-<h3>Risk Score : LOW</h3>
+        <div class="card">
+            <h2>Overall Risk</h2>
+            <p class="{{ risk_class }}">
+    {{ ai.overall_risk }}
+     </p>
+        </div>
 
-<h3>CPU Usage : 35%</h3>
+        <div class="card">
+            <h2>AI Confidence</h2>
+            <p>{{ ai.confidence }}%</p>
+        </div>
 
-<h3>Memory Usage : 48%</h3>
+        <div class="card">
+            <h2>Deployment</h2>
+            <p class="{{ deployment_class }}">
+    {{ ai.deployment_decision }}
+</p>
+        </div>
 
-<h3>Active Alerts : NONE</h3>
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <h2>Bandit</h2>
+            <p>{{ ai.bandit_issues }}</p>
+        </div>
+
+        <div class="card">
+            <h2>Trivy</h2>
+            <p>{{ ai.trivy_vulnerabilities }}</p>
+        </div>
+
+        <div class="card">
+            <h2>Gitleaks</h2>
+            <p>{{ ai.gitleaks_secrets }}</p>
+        </div>
+
+    </div>
+
+    <div class="recommendation">
+
+        <h2>🤖 AI Recommendation</h2>
+
+        <p>{{ ai.reason }}</p>
+
+        <hr>
+
+        <p><strong>Generated:</strong> {{ ai.generated_at }}</p>
+
+    </div>
+
+</div>
 
 </body>
+
 </html>
