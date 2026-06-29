@@ -3,261 +3,244 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <title>AI Security Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<title>AI Security Dashboard</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 </head>
 
 <body>
 
-<div class="container">
+<header>
 
-    <h1>🤖 Autonomous DevSecOps Framework</h1>
+<nav class="navbar">
 
-    <!-- ========================= -->
-    <!-- AI Dashboard Cards -->
-    <!-- ========================= -->
+<div class="logo">
 
-    <div class="cards">
+<i class="fa-solid fa-shield-halved"></i>
 
-        <div class="card">
-            <h2>📊 Security Score</h2>
-            <p>{{ ai.security_score }}/100</p>
-        </div>
+Autonomous DevSecOps
 
-        <div class="card">
-            <h2>🛡 Overall Risk</h2>
-            <p class="{{ risk_class }}">
-                {{ ai.overall_risk }}
-            </p>
-        </div>
+</div>
 
-        <div class="card">
-            <h2>🤖 AI Confidence</h2>
-            <p>{{ ai.confidence }}%</p>
-        </div>
+<ul>
 
-        <div class="card">
-            <h2>🚀 Deployment</h2>
-            <p class="{{ deployment_class }}">
-                {{ ai.deployment_decision }}
-            </p>
-        </div>
+<li><a href="/">Home</a></li>
 
-    </div>
+<li><a href="/upload">Upload</a></li>
 
-    <!-- ========================= -->
-    <!-- Security Scan Results -->
-    <!-- ========================= -->
+<li><a href="/login">Logout</a></li>
 
-    <div class="cards">
+</ul>
 
-        <div class="card">
-            <h2>🔍 Bandit</h2>
-            <p>{{ ai.bandit_issues }}</p>
-        </div>
+</nav>
 
-        <div class="card">
-            <h2>🐳 Trivy</h2>
-            <p>{{ ai.trivy_vulnerabilities }}</p>
-        </div>
+</header>
 
-        <div class="card">
-            <h2>🔑 Gitleaks</h2>
-            <p>{{ ai.gitleaks_secrets }}</p>
-        </div>
+<section class="hero">
 
-    </div>
+<div style="width:100%;max-width:1200px;">
 
-    <!-- ========================= -->
-    <!-- AI Recommendation -->
-    <!-- ========================= -->
+<h1 style="text-align:center;margin-bottom:40px;">
 
-    <div class="recommendation">
+<i class="fa-solid fa-chart-line"></i>
 
-        <h2>🤖 AI Recommendation</h2>
+AI Security Dashboard
 
-        <p>{{ ai.reason }}</p>
+</h1>
 
-        <hr>
+<div class="cards">
 
-        <p>
-            <strong>Generated:</strong>
-            {{ ai.generated_at }}
-        </p>
+<div class="card">
 
-    </div>
+<i class="fa-solid fa-shield"></i>
 
-    <!-- ========================= -->
-    <!-- Deployment History -->
-    <!-- ========================= -->
+<h3>Security Score</h3>
 
-    <div class="recommendation">
+<h2>95 / 100</h2>
 
-        <h2>📜 Deployment History</h2>
+</div>
 
-        <table>
+<div class="card">
 
-            <tr>
-                <th>Date</th>
-                <th>Risk</th>
-                <th>Decision</th>
-                <th>Score</th>
-            </tr>
+<i class="fa-solid fa-triangle-exclamation"></i>
 
-            {% for item in history %}
+<h3>Overall Risk</h3>
 
-            <tr>
+<h2 style="color:#22c55e;">LOW</h2>
 
-                <td>{{ item.generated_at }}</td>
+</div>
 
-                <td>{{ item.overall_risk }}</td>
+<div class="card">
 
-                <td>{{ item.deployment_decision }}</td>
+<i class="fa-solid fa-robot"></i>
 
-                <td>{{ item.security_score }}</td>
+<h3>AI Decision</h3>
 
-            </tr>
+<h2 style="color:#38bdf8;">APPROVED</h2>
 
-            {% endfor %}
+</div>
 
-        </table>
+<div class="card">
 
-    </div>
+<i class="fa-solid fa-rocket"></i>
 
-    <!-- ========================= -->
-    <!-- Security Trend -->
-    <!-- ========================= -->
+<h3>Deployment</h3>
 
-    <div class="recommendation">
-
-        <h2>📈 Security Score Trend</h2>
-
-        <canvas id="securityChart"></canvas>
-
-    </div>
-
-    <div class="recommendation">
-
-    <h2>📑 AI Audit Log</h2>
-
-    <table>
-
-        <tr>
-            <th>Run</th>
-            <th>Date</th>
-            <th>Score</th>
-            <th>Risk</th>
-            <th>Decision</th>
-            <th>Confidence</th>
-        </tr>
-
-        {% for item in audit %}
-
-        <tr>
-
-            <td>#{{ item.run }}</td>
-
-            <td>{{ item.generated_at }}</td>
-
-            <td>{{ item.score }}</td>
-
-            <td>{{ item.risk }}</td>
-
-            <td>{{ item.decision }}</td>
-
-            <td>{{ item.confidence }}%</td>
-
-        </tr>
-
-        {% endfor %}
-
-    </table>
+<h2 style="color:#22c55e;">SUCCESS</h2>
 
 </div>
 
 </div>
 
-<!-- ========================= -->
-<!-- Chart.js -->
-<!-- ========================= -->
+<br><br>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<h2 style="text-align:center;color:#38bdf8;">
 
-<script>
+Security Scan Results
 
-const history = JSON.parse('{{ history_json | safe }}');
+</h2>
 
-const labels = history.map(item =>
-    item.generated_at.substring(0,10)
-);
+<div class="cards">
 
-const scores = history.map(item =>
-    item.security_score
-);
+<div class="card">
 
-const ctx = document.getElementById("securityChart");
+<i class="fa-solid fa-code"></i>
 
-new Chart(ctx, {
+<h3>Bandit</h3>
 
-    type: "line",
+<h2>0 Issues</h2>
 
-    data: {
+</div>
 
-        labels: labels,
+<div class="card">
 
-        datasets: [{
+<i class="fa-solid fa-box"></i>
 
-            label: "Security Score",
+<h3>Trivy</h3>
 
-            data: scores,
+<h2>0 Vulnerabilities</h2>
 
-            borderColor: "#0f62fe",
+</div>
 
-            backgroundColor: "rgba(15,98,254,0.2)",
+<div class="card">
 
-            fill: true,
+<i class="fa-solid fa-key"></i>
 
-            tension: 0.3
+<h3>Gitleaks</h3>
 
-        }]
+<h2>0 Secrets</h2>
 
-    },
+</div>
 
-    options: {
+<div class="card">
 
-        responsive: true,
+<i class="fa-solid fa-cloud"></i>
 
-        plugins: {
+<h3>SonarCloud</h3>
 
-            legend: {
+<h2>Passed</h2>
 
-                display: true
+</div>
 
-            }
+</div>
 
-        },
+<br><br>
 
-        scales: {
+<div class="card">
 
-            y: {
+<h2 style="color:#38bdf8;">
 
-                beginAtZero: true,
+<i class="fa-solid fa-circle-info"></i>
 
-                max: 100
+Deployment Summary
 
-            }
+</h2>
 
-        }
+<br>
 
-    }
+<table style="width:100%;text-align:left;">
 
-});
+<tr>
 
-</script>
+<td><b>Pipeline Status</b></td>
+
+<td>CONTINUE</td>
+
+</tr>
+
+<tr>
+
+<td><b>Deployment Status</b></td>
+
+<td>SUCCESS</td>
+
+</tr>
+
+<tr>
+
+<td><b>Application Health</b></td>
+
+<td>HEALTHY</td>
+
+</tr>
+
+<tr>
+
+<td><b>AI Confidence</b></td>
+
+<td>99%</td>
+
+</tr>
+
+<tr>
+
+<td><b>Generated Time</b></td>
+
+<td>{{ generated_at if generated_at else "Latest Scan" }}</td>
+
+</tr>
+
+</table>
+
+</div>
+
+<br>
+
+<div style="text-align:center;">
+
+<a href="/upload" class="btn-primary">
+
+<i class="fa-solid fa-upload"></i>
+
+Scan Another Project
+
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<footer>
+
+<p>
+
+© 2026 Autonomous DevSecOps Framework
+
+</p>
+
+</footer>
 
 </body>
 

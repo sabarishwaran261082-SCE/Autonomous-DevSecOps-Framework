@@ -1,0 +1,1390 @@
+/* =====================================================
+   AUTONOMOUS DEVSECOPS FRAMEWORK
+   PROFESSIONAL CYBERSECURITY THEME
+====================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+    scroll-behavior:smooth;
+}
+
+body{
+
+    background:#0f172a;
+
+    color:#ffffff;
+
+    overflow-x:hidden;
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-track{
+    background:#111827;
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#3b82f6;
+
+    border-radius:20px;
+}
+
+/* ==========================================
+Navbar
+========================================== */
+
+header{
+
+    width:100%;
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    z-index:999;
+
+    background:rgba(15,23,42,.92);
+
+    backdrop-filter:blur(12px);
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+.navbar{
+
+    width:90%;
+
+    margin:auto;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    height:80px;
+
+}
+
+.logo{
+
+    color:#38bdf8;
+
+    font-size:28px;
+
+    font-weight:700;
+
+}
+
+.logo i{
+
+    color:#22c55e;
+
+    margin-right:8px;
+
+}
+
+.navbar ul{
+
+    display:flex;
+
+    list-style:none;
+
+    gap:35px;
+
+}
+
+.navbar ul li a{
+
+    color:white;
+
+    text-decoration:none;
+
+    transition:.3s;
+
+    font-weight:500;
+
+}
+
+.navbar ul li a:hover{
+
+    color:#38bdf8;
+
+}
+
+/* ==========================================
+Hero
+========================================== */
+
+.hero{
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    padding:120px 10%;
+
+    background:
+
+    radial-gradient(circle at top,#2563eb33,transparent 45%),
+
+    radial-gradient(circle at bottom,#06b6d433,transparent 35%),
+
+    #0f172a;
+
+}
+
+.hero-content{
+
+    max-width:900px;
+
+}
+
+.hero h1{
+
+    font-size:60px;
+
+    line-height:1.2;
+
+    margin-bottom:25px;
+
+}
+
+.hero h1 span{
+
+    color:#38bdf8;
+
+}
+
+.hero p{
+
+    color:#cbd5e1;
+
+    font-size:20px;
+
+    line-height:1.8;
+
+    margin-bottom:45px;
+
+}
+
+/* ==========================================
+Buttons
+========================================== */
+
+.buttons{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:25px;
+
+    flex-wrap:wrap;
+
+}
+
+.btn-primary{
+
+    background:#2563eb;
+
+    color:white;
+
+    padding:15px 40px;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    font-size:18px;
+
+    transition:.4s;
+
+    box-shadow:0 0 20px rgba(37,99,235,.45);
+
+}
+
+.btn-primary:hover{
+
+    transform:translateY(-5px);
+
+    background:#1d4ed8;
+
+}
+
+.btn-secondary{
+
+    border:2px solid #38bdf8;
+
+    color:#38bdf8;
+
+    padding:15px 40px;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    transition:.4s;
+
+}
+
+.btn-secondary:hover{
+
+    background:#38bdf8;
+
+    color:white;
+
+}
+
+/* ==========================================
+Section Title
+========================================== */
+
+section{
+
+    padding:90px 10%;
+
+}
+
+section h2{
+
+    text-align:center;
+
+    font-size:42px;
+
+    margin-bottom:60px;
+
+    color:#38bdf8;
+
+}
+
+/* ==========================================
+FEATURE CARDS
+========================================== */
+
+.features{
+
+    background:#111827;
+
+}
+
+.cards{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+
+    gap:35px;
+
+}
+
+.card{
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:20px;
+
+    padding:40px 30px;
+
+    text-align:center;
+
+    transition:.4s;
+
+    backdrop-filter:blur(15px);
+
+}
+
+.card:hover{
+
+    transform:translateY(-12px);
+
+    box-shadow:0 20px 40px rgba(37,99,235,.35);
+
+    border-color:#3b82f6;
+
+}
+
+.card i{
+
+    font-size:55px;
+
+    color:#38bdf8;
+
+    margin-bottom:25px;
+
+}
+
+.card h3{
+
+    font-size:26px;
+
+    margin-bottom:18px;
+
+}
+
+.card p{
+
+    color:#cbd5e1;
+
+    line-height:1.8;
+
+}
+
+/* ==========================================
+WORKFLOW
+========================================== */
+
+.workflow{
+
+    background:#0f172a;
+
+}
+
+.flow{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:18px;
+
+}
+
+.flow div{
+
+    background:#1e293b;
+
+    color:white;
+
+    padding:18px 28px;
+
+    border-radius:12px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    transition:.3s;
+
+    font-weight:600;
+
+}
+
+.flow div:hover{
+
+    background:#2563eb;
+
+    transform:scale(1.08);
+
+}
+
+.flow i{
+
+    color:#22c55e;
+
+    font-size:24px;
+
+}
+
+/* ==========================================
+TECH STACK
+========================================== */
+
+.tech{
+
+    background:#111827;
+
+}
+
+.tech-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
+    gap:25px;
+
+}
+
+.tech-grid div{
+
+    background:#1e293b;
+
+    padding:25px;
+
+    border-radius:15px;
+
+    text-align:center;
+
+    font-size:20px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+    border:1px solid rgba(255,255,255,.08);
+
+}
+
+.tech-grid div:hover{
+
+    background:#2563eb;
+
+    transform:translateY(-8px);
+
+}
+
+/* ==========================================
+FOOTER
+========================================== */
+
+footer{
+
+    background:#020617;
+
+    text-align:center;
+
+    padding:30px;
+
+    color:#94a3b8;
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+}
+
+/* ==========================================
+ANIMATIONS
+========================================== */
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(60px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+.hero-content{
+
+    animation:fadeUp 1.2s ease;
+
+}
+
+.card{
+
+    animation:fadeUp 1.2s ease;
+
+}
+
+.tech-grid div{
+
+    animation:fadeUp 1.2s ease;
+
+}
+
+/* ==========================================
+RESPONSIVE
+========================================== */
+
+@media(max-width:900px){
+
+.hero h1{
+
+    font-size:42px;
+
+}
+
+.hero p{
+
+    font-size:18px;
+
+}
+
+.navbar{
+
+    flex-direction:column;
+
+    height:auto;
+
+    padding:20px;
+
+}
+
+.navbar ul{
+
+    margin-top:20px;
+
+}
+
+.flow{
+
+    flex-direction:column;
+
+}
+
+.flow i{
+
+    transform:rotate(90deg);
+
+}
+
+}
+
+@media(max-width:600px){
+
+.hero{
+
+    padding:140px 20px;
+
+}
+
+.hero h1{
+
+    font-size:34px;
+
+}
+
+.hero p{
+
+    font-size:16px;
+
+}
+
+.buttons{
+
+    flex-direction:column;
+
+}
+
+.btn-primary,
+.btn-secondary{
+
+    width:100%;
+
+}
+
+section h2{
+
+    font-size:32px;
+
+}
+
+.logo{
+
+    font-size:22px;
+
+}
+
+.navbar ul{
+
+    gap:20px;
+
+}
+
+}
+
+/* ==========================================================
+   PART 3 - PREMIUM CYBERSECURITY UI
+========================================================== */
+
+/* Floating Background Glow */
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    top:-200px;
+
+    left:-200px;
+
+    width:500px;
+
+    height:500px;
+
+    background:#2563eb;
+
+    opacity:.08;
+
+    border-radius:50%;
+
+    filter:blur(140px);
+
+    z-index:-2;
+
+}
+
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    bottom:-250px;
+
+    right:-250px;
+
+    width:600px;
+
+    height:600px;
+
+    background:#06b6d4;
+
+    opacity:.08;
+
+    border-radius:50%;
+
+    filter:blur(180px);
+
+    z-index:-2;
+
+}
+
+/* ==========================================
+   HERO TITLE ANIMATION
+========================================== */
+
+.hero h1{
+
+    animation:titleAnimation 1.5s ease;
+
+}
+
+@keyframes titleAnimation{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(-60px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ==========================================
+   HERO PARAGRAPH
+========================================== */
+
+.hero p{
+
+    animation:fadeText 2s ease;
+
+}
+
+@keyframes fadeText{
+
+    from{
+
+        opacity:0;
+
+    }
+
+    to{
+
+        opacity:1;
+
+    }
+
+}
+
+/* ==========================================
+   BUTTON GLOW
+========================================== */
+
+.btn-primary{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.btn-primary::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:-120%;
+
+    width:100%;
+
+    height:100%;
+
+    background:rgba(255,255,255,.25);
+
+    transform:skewX(-25deg);
+
+    transition:.8s;
+
+}
+
+.btn-primary:hover::before{
+
+    left:120%;
+
+}
+
+/* ==========================================
+   FEATURE CARD GLOW
+========================================== */
+
+.card{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:250px;
+
+    height:250px;
+
+    background:#3b82f6;
+
+    opacity:.06;
+
+    top:-120px;
+
+    right:-120px;
+
+    border-radius:50%;
+
+    transition:.5s;
+
+}
+
+.card:hover::before{
+
+    transform:scale(1.8);
+
+}
+
+/* ==========================================
+   ICON ROTATION
+========================================== */
+
+.card:hover i{
+
+    transform:rotate(360deg);
+
+    transition:1s;
+
+}
+
+/* ==========================================
+   TECH STACK EFFECT
+========================================== */
+
+.tech-grid div{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.tech-grid div::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    bottom:0;
+
+    width:0;
+
+    height:4px;
+
+    background:#22c55e;
+
+    transition:.4s;
+
+}
+
+.tech-grid div:hover::after{
+
+    width:100%;
+
+}
+
+/* ==========================================
+   NAVBAR SHADOW
+========================================== */
+
+header{
+
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
+
+}
+
+/* ==========================================
+   SECTION TITLE EFFECT
+========================================== */
+
+section h2{
+
+    position:relative;
+
+    display:inline-block;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+}
+
+section h2::after{
+
+    content:"";
+
+    position:absolute;
+
+    bottom:-12px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:80px;
+
+    height:4px;
+
+    background:#38bdf8;
+
+    border-radius:10px;
+
+}
+
+/* ==========================================
+   FLOATING ANIMATION
+========================================== */
+
+.card{
+
+    animation:floating 6s ease-in-out infinite;
+
+}
+
+@keyframes floating{
+
+    0%{
+
+        transform:translateY(0px);
+
+    }
+
+    50%{
+
+        transform:translateY(-10px);
+
+    }
+
+    100%{
+
+        transform:translateY(0px);
+
+    }
+
+}
+
+/* ==========================================
+   FOOTER EFFECT
+========================================== */
+
+footer{
+
+    letter-spacing:1px;
+
+}
+
+footer:hover{
+
+    color:#38bdf8;
+
+    transition:.4s;
+
+}
+
+/* ==========================================
+   SMOOTH FADE
+========================================== */
+
+.features,
+.workflow,
+.tech{
+
+    animation:fadeUp 1.4s ease;
+
+}
+
+/* ==========================================================
+        PART 4 - PREMIUM FINISH
+==========================================================*/
+
+/* Smooth scrolling */
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+/* ------------------------------------
+Section Fade
+------------------------------------ */
+
+.hero,
+.features,
+.workflow,
+.tech{
+
+    transition:all .6s ease;
+
+}
+
+/* ------------------------------------
+Gradient Text
+------------------------------------ */
+
+.hero span{
+
+    background:linear-gradient(90deg,#38bdf8,#22c55e,#60a5fa);
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+
+}
+
+/* ------------------------------------
+Card Shine Effect
+------------------------------------ */
+
+.card{
+
+    position:relative;
+
+}
+
+.card::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:-150%;
+
+    left:-100%;
+
+    width:80%;
+
+    height:350%;
+
+    background:rgba(255,255,255,.08);
+
+    transform:rotate(25deg);
+
+    transition:.8s;
+
+}
+
+.card:hover::after{
+
+    left:150%;
+
+}
+
+/* ------------------------------------
+Feature Icon Glow
+------------------------------------ */
+
+.card i{
+
+    text-shadow:
+
+    0 0 15px #3b82f6,
+
+    0 0 25px #3b82f6,
+
+    0 0 45px #3b82f6;
+
+}
+
+/* ------------------------------------
+Workflow Hover
+------------------------------------ */
+
+.flow div{
+
+    cursor:pointer;
+
+}
+
+.flow div:hover{
+
+    box-shadow:
+
+    0 0 20px rgba(37,99,235,.5);
+
+}
+
+/* ------------------------------------
+Tech Grid Glow
+------------------------------------ */
+
+.tech-grid div:hover{
+
+    box-shadow:
+
+    0 0 25px rgba(59,130,246,.45);
+
+}
+
+/* ------------------------------------
+Navbar Hover Underline
+------------------------------------ */
+
+.navbar ul li{
+
+    position:relative;
+
+}
+
+.navbar ul li::after{
+
+    content:"";
+
+    position:absolute;
+
+    bottom:-6px;
+
+    left:0;
+
+    width:0;
+
+    height:3px;
+
+    background:#38bdf8;
+
+    transition:.4s;
+
+}
+
+.navbar ul li:hover::after{
+
+    width:100%;
+
+}
+
+/* ------------------------------------
+Hero Background Animation
+------------------------------------ */
+
+.hero{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.hero::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:900px;
+
+    height:900px;
+
+    background:radial-gradient(circle,#2563eb33,transparent);
+
+    animation:rotateGlow 18s linear infinite;
+
+}
+
+@keyframes rotateGlow{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+/* ------------------------------------
+Button Pulse
+------------------------------------ */
+
+.btn-primary{
+
+    animation:pulse 2s infinite;
+
+}
+
+@keyframes pulse{
+
+    0%{
+
+        box-shadow:0 0 0 rgba(37,99,235,.4);
+
+    }
+
+    50%{
+
+        box-shadow:0 0 35px rgba(37,99,235,.7);
+
+    }
+
+    100%{
+
+        box-shadow:0 0 0 rgba(37,99,235,.4);
+
+    }
+
+}
+
+/* ------------------------------------
+Footer Glow
+------------------------------------ */
+
+footer{
+
+    position:relative;
+
+}
+
+footer::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:2px;
+
+    background:linear-gradient(90deg,#2563eb,#22c55e,#38bdf8);
+
+}
+
+/* ------------------------------------
+Selection Color
+------------------------------------ */
+
+::selection{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+/* ------------------------------------
+Image Hover
+------------------------------------ */
+
+img{
+
+    transition:.5s;
+
+}
+
+img:hover{
+
+    transform:scale(1.03);
+
+}
+
+/* ------------------------------------
+Smooth Card Transition
+------------------------------------ */
+
+.card,
+.tech-grid div,
+.flow div,
+.btn-primary,
+.btn-secondary{
+
+    transition:.35s ease;
+
+}
+
+/* ------------------------------------
+Premium Shadow
+------------------------------------ */
+
+.card{
+
+    box-shadow:
+
+    0 10px 35px rgba(0,0,0,.25);
+
+}
+
+/* ------------------------------------
+Large Screen Improvement
+------------------------------------ */
+
+@media(min-width:1400px){
+
+.hero h1{
+
+    font-size:72px;
+
+}
+
+.hero p{
+
+    font-size:22px;
+
+}
+
+section{
+
+    padding:120px;
+
+}
+
+}
+
+/*==============================
+STATISTICS
+===============================*/
+
+.stats{
+
+    background:#020617;
+
+}
+
+.stats-container{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+    gap:30px;
+
+}
+
+.stats-card{
+
+    background:#1e293b;
+
+    padding:35px;
+
+    border-radius:15px;
+
+    text-align:center;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    transition:.4s;
+
+    opacity:0;
+
+    transform:translateY(40px);
+
+}
+
+.stats-card.active{
+
+    opacity:1;
+
+    transform:translateY(0);
+
+}
+
+.stats-card:hover{
+
+    transform:translateY(-10px);
+
+    box-shadow:0 15px 35px rgba(59,130,246,.35);
+
+}
+
+.stats-card h3{
+
+    color:#38bdf8;
+
+    font-size:50px;
+
+    margin-bottom:10px;
+
+}
+
+.stats-card p{
+
+    color:#cbd5e1;
+
+    font-size:18px;
+
+}

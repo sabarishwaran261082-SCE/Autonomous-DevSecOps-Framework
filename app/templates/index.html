@@ -1,18 +1,275 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Autonomous DevSecOps Framework</title>
-    <link rel="stylesheet" href="/static/style.css">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-9d1uH2gI84t47vN5BdbpAlH0aVOAvI6Xdlvky0gkCbhJNCURMZ2q2llLq3uFBthmAO1suo8G0sSBn5WiublC4hQ=="
+        crossorigin="anonymous">
+
 </head>
+
 <body>
 
-<h1>Autonomous DevSecOps Framework</h1>
+<!-- ========================= NAVBAR ========================= -->
 
-<h3>AI-Driven Risk Assessment, Security Validation and Cloud-Native Delivery</h3>
+<header>
 
-<a href="/login">Login</a>
+    <nav class="navbar">
 
+        <div class="logo">
+
+            <i class="fa-solid fa-shield-halved"></i>
+
+            Autonomous DevSecOps
+
+        </div>
+
+        <ul>
+
+            <li><a href="/">Home</a></li>
+
+            <li><a href="/login">Login</a></li>
+
+            <li><a href="/upload">Upload</a></li>
+
+        </ul>
+
+    </nav>
+
+</header>
+
+<!-- ========================= HERO ========================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1 id="typing">Autonomous DevSecOps Framework</h1>
+
+        <p>
+
+            Intelligent DevSecOps platform for automated project detection,
+            vulnerability scanning, AI-powered risk analysis,
+            secure CI/CD, Docker deployment, Amazon ECR,
+            EC2 delivery and cloud-native security automation.
+
+        </p>
+
+        <div class="buttons">
+
+            <a href="/login" class="btn-primary">
+
+                Get Started
+
+            </a>
+
+            <a href="https://github.com" class="btn-secondary">
+
+                GitHub
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================= FEATURES ========================= -->
+
+<section class="features">
+
+    <h2>Platform Features</h2>
+
+    <div class="cards">
+
+        <div class="card">
+
+            <i class="fa-solid fa-brain"></i>
+
+            <h3>AI Risk Analysis</h3>
+
+            <p>
+
+                AI automatically evaluates vulnerabilities,
+                secrets and deployment risks.
+
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <i class="fa-solid fa-shield-virus"></i>
+
+            <h3>Security Scanning</h3>
+
+            <p>
+
+                Bandit, Trivy and Gitleaks work together
+                to secure every uploaded project.
+
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <i class="fa-solid fa-cloud"></i>
+
+            <h3>Cloud Deployment</h3>
+
+            <p>
+
+                Docker, Amazon ECR and EC2 deployment
+                controlled by AI deployment decisions.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================= WORKFLOW ========================= -->
+
+<section class="workflow">
+
+    <h2>Workflow</h2>
+
+    <div class="flow">
+
+        <div>Upload</div>
+
+        <i class="fa-solid fa-arrow-right"></i>
+
+        <div>Detect</div>
+
+        <i class="fa-solid fa-arrow-right"></i>
+
+        <div>Bandit</div>
+
+        <i class="fa-solid fa-arrow-right"></i>
+
+        <div>Trivy</div>
+
+        <i class="fa-solid fa-arrow-right"></i>
+
+        <div>Gitleaks</div>
+
+        <i class="fa-solid fa-arrow-right"></i>
+
+        <div>AI Analysis</div>
+
+        <i class="fa-solid fa-arrow-right"></i>
+
+        <div>Deploy</div>
+
+    </div>
+
+</section>
+
+<!-- ========================= TECH STACK ========================= -->
+
+<section class="tech">
+
+    <h2>Technology Stack</h2>
+
+    <div class="tech-grid">
+
+        <div>Python</div>
+
+        <div>Flask</div>
+
+        <div>Docker</div>
+
+        <div>AWS</div>
+
+        <div>GitHub Actions</div>
+
+        <div>SonarCloud</div>
+
+        <div>Bandit</div>
+
+        <div>Trivy</div>
+
+        <div>Gitleaks</div>
+
+        <div>AI Security</div>
+
+    </div>
+
+</section>
+<section class="stats">
+
+<h2>Platform Statistics</h2>
+
+<div class="stats-container">
+
+<div class="stats-card">
+
+<h3 class="counter" data-target="150">0</h3>
+
+<p>Projects Scanned</p>
+
+</div>
+
+<div class="stats-card">
+
+<h3 class="counter" data-target="95">0</h3>
+
+<p>Security Accuracy</p>
+
+</div>
+
+<div class="stats-card">
+
+<h3 class="counter" data-target="24">0</h3>
+
+<p>AI Decisions</p>
+
+</div>
+
+<div class="stats-card">
+
+<h3 class="counter" data-target="12">0</h3>
+
+<p>Deployments</p>
+
+</div>
+
+</div>
+
+</section>
+<!-- ========================= FOOTER ========================= -->
+
+<footer>
+
+    <p>
+
+        © 2026 Autonomous DevSecOps Framework |
+        AI Driven Security • Cloud Native • DevSecOps
+
+    </p>
+
+</footer>
+<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
+
 </html>
