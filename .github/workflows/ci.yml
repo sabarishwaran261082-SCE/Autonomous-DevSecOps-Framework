@@ -30,6 +30,12 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
+    
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+         distribution: 'temurin'
+         java-version: '17'
 
     - name: Verify Python Version
       run: python --version
@@ -43,6 +49,11 @@ jobs:
       run: |
         cd app
         python -m pytest
+    
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarqube-scan-action@v5
+      env:
+         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     - name: Run Bandit Security Scan
       run: |
