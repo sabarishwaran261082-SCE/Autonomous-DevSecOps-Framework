@@ -1,0 +1,12 @@
+{
+    "project": "Autonomous DevSecOps Framework",
+    "generated_at": "2026-06-29T20:46:01.180593+05:30",
+    "overall_risk": "CRITICAL",
+    "security_score": 53,
+    "confidence": 99,
+    "deployment_decision": "NOT APPROVED",
+    "reason": "Critical vulnerabilities or secrets detected.",
+    "bandit_issues": 1,
+    "trivy_vulnerabilities": 1,
+    "gitleaks_secrets": 2
+}
