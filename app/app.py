@@ -61,10 +61,39 @@ def dashboard():
         deployment_class = "warning"
     elif ai["deployment_decision"] == "NOT APPROVED":
         deployment_class = "not-approved"
+    # -----------------------------------
+    # Read Deployment History
+    # -----------------------------------
+
+    history = []
+
+    history_file = "deployment-history.json"
+
+    if os.path.exists(history_file):
+        with open(history_file, "r", encoding="utf-8") as f:
+            history = json.load(f)
+
+    # Show only latest 5 deployments
+        history = history[::-1][:5]
+    
+    audit = []
+
+    audit_file = "audit-log.json"
+
+    if os.path.exists(audit_file):
+
+       with open(audit_file, "r", encoding="utf-8") as f:
+
+           audit = json.load(f)
+
+    audit = audit[::-1][:10]
 
     return render_template(
         "dashboard.html",
         ai=ai,
+        history=history,
+        history_json=json.dumps(history),
+        audit=audit,
         risk_class=risk_class,
         deployment_class=deployment_class
     )

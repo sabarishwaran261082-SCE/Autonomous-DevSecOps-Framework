@@ -17,52 +17,64 @@
 
     <h1>🤖 Autonomous DevSecOps Framework</h1>
 
+    <!-- ========================= -->
+    <!-- AI Dashboard Cards -->
+    <!-- ========================= -->
+
     <div class="cards">
 
         <div class="card">
-            <h2>Security Score</h2>
+            <h2>📊 Security Score</h2>
             <p>{{ ai.security_score }}/100</p>
         </div>
 
         <div class="card">
-            <h2>Overall Risk</h2>
+            <h2>🛡 Overall Risk</h2>
             <p class="{{ risk_class }}">
-    {{ ai.overall_risk }}
-     </p>
+                {{ ai.overall_risk }}
+            </p>
         </div>
 
         <div class="card">
-            <h2>AI Confidence</h2>
+            <h2>🤖 AI Confidence</h2>
             <p>{{ ai.confidence }}%</p>
         </div>
 
         <div class="card">
-            <h2>Deployment</h2>
+            <h2>🚀 Deployment</h2>
             <p class="{{ deployment_class }}">
-    {{ ai.deployment_decision }}
-</p>
+                {{ ai.deployment_decision }}
+            </p>
         </div>
 
     </div>
+
+    <!-- ========================= -->
+    <!-- Security Scan Results -->
+    <!-- ========================= -->
 
     <div class="cards">
 
         <div class="card">
-            <h2>Bandit</h2>
+            <h2>🔍 Bandit</h2>
             <p>{{ ai.bandit_issues }}</p>
         </div>
 
         <div class="card">
-            <h2>Trivy</h2>
+            <h2>🐳 Trivy</h2>
             <p>{{ ai.trivy_vulnerabilities }}</p>
         </div>
 
         <div class="card">
-            <h2>Gitleaks</h2>
+            <h2>🔑 Gitleaks</h2>
             <p>{{ ai.gitleaks_secrets }}</p>
         </div>
 
     </div>
+
+    <!-- ========================= -->
+    <!-- AI Recommendation -->
+    <!-- ========================= -->
 
     <div class="recommendation">
 
@@ -72,11 +84,180 @@
 
         <hr>
 
-        <p><strong>Generated:</strong> {{ ai.generated_at }}</p>
+        <p>
+            <strong>Generated:</strong>
+            {{ ai.generated_at }}
+        </p>
 
     </div>
 
+    <!-- ========================= -->
+    <!-- Deployment History -->
+    <!-- ========================= -->
+
+    <div class="recommendation">
+
+        <h2>📜 Deployment History</h2>
+
+        <table>
+
+            <tr>
+                <th>Date</th>
+                <th>Risk</th>
+                <th>Decision</th>
+                <th>Score</th>
+            </tr>
+
+            {% for item in history %}
+
+            <tr>
+
+                <td>{{ item.generated_at }}</td>
+
+                <td>{{ item.overall_risk }}</td>
+
+                <td>{{ item.deployment_decision }}</td>
+
+                <td>{{ item.security_score }}</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- Security Trend -->
+    <!-- ========================= -->
+
+    <div class="recommendation">
+
+        <h2>📈 Security Score Trend</h2>
+
+        <canvas id="securityChart"></canvas>
+
+    </div>
+
+    <div class="recommendation">
+
+    <h2>📑 AI Audit Log</h2>
+
+    <table>
+
+        <tr>
+            <th>Run</th>
+            <th>Date</th>
+            <th>Score</th>
+            <th>Risk</th>
+            <th>Decision</th>
+            <th>Confidence</th>
+        </tr>
+
+        {% for item in audit %}
+
+        <tr>
+
+            <td>#{{ item.run }}</td>
+
+            <td>{{ item.generated_at }}</td>
+
+            <td>{{ item.score }}</td>
+
+            <td>{{ item.risk }}</td>
+
+            <td>{{ item.decision }}</td>
+
+            <td>{{ item.confidence }}%</td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
 </div>
+
+</div>
+
+<!-- ========================= -->
+<!-- Chart.js -->
+<!-- ========================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const history = JSON.parse('{{ history_json | safe }}');
+
+const labels = history.map(item =>
+    item.generated_at.substring(0,10)
+);
+
+const scores = history.map(item =>
+    item.security_score
+);
+
+const ctx = document.getElementById("securityChart");
+
+new Chart(ctx, {
+
+    type: "line",
+
+    data: {
+
+        labels: labels,
+
+        datasets: [{
+
+            label: "Security Score",
+
+            data: scores,
+
+            borderColor: "#0f62fe",
+
+            backgroundColor: "rgba(15,98,254,0.2)",
+
+            fill: true,
+
+            tension: 0.3
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        plugins: {
+
+            legend: {
+
+                display: true
+
+            }
+
+        },
+
+        scales: {
+
+            y: {
+
+                beginAtZero: true,
+
+                max: 100
+
+            }
+
+        }
+
+    }
+
+});
+
+</script>
 
 </body>
 

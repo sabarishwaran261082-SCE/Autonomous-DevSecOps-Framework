@@ -138,6 +138,16 @@ jobs:
         cd app
         python ai_root_cause.py
 
+    - name: Generate AI Audit Log
+      run: |
+         cd app
+         python audit_logger.py
+
+    - name: Generate Deployment History
+      run: |
+         cd app
+         python deployment_history.py
+
     - name: Run AI Deployment Gate
       run: |
         cd app
@@ -159,6 +169,9 @@ jobs:
           app/security-summary.json
           app/ai-security-report.md
           app/deployment-decision.json
+          app/dashboard-summary.txt
+          app/deployment-history.json
+          app/audit-log.json
 
         if-no-files-found: warn
 
