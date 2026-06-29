@@ -1,0 +1,15 @@
+{
+    "bandit": {
+        "status": "FAILED",
+        "duration": 0.68
+    },
+    "trivy": {
+        "status": "SUCCESS",
+        "duration": 0.24
+    },
+    "gitleaks": {
+        "status": "FAILED",
+        "duration": 1.46
+    },
+    "overall": "FAILED"
+}

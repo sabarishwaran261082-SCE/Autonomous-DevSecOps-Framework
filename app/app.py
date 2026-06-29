@@ -1,3 +1,6 @@
+import subprocess
+from time import time
+
 from flask import Flask, render_template, request
 import json
 import os
@@ -150,7 +153,21 @@ def upload_project():
 
     # Remove old extraction if it exists
     if os.path.exists(extract_path):
-        shutil.rmtree(extract_path)
+
+    # Give Windows a moment to release file handles
+         time.sleep(1)
+
+         try:
+             shutil.rmtree(extract_path)
+
+         except PermissionError:
+
+             print("⚠ Previous extracted folder is in use. Removing ignored.")
+
+             shutil.rmtree(
+                 extract_path,
+                 ignore_errors=True
+            )
 
     os.makedirs(extract_path)
 
@@ -178,6 +195,24 @@ def upload_project():
 
     executor.execute(pipeline)
     
+    print("\nGenerating Security Summary...")
+
+    subprocess.run(
+         ["python", "generate_summary.py"],
+         check=False
+    )
+
+    print("✓ Security Summary Generated")
+    
+    print("\nRunning AI Root Cause Analyzer...")
+
+    subprocess.run(
+         ["python", "ai_root_cause.py"],
+         check=False
+    )
+
+    print("✓ AI Security Report Generated")
+
     pipeline_html = "<br>".join(pipeline)
     
     return f"""
