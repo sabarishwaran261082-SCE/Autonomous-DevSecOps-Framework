@@ -2,39 +2,80 @@ import json
 import os
 
 decision_file = "deployment-decision.json"
+status_file = "deployment-status.json"
 
 if not os.path.exists(decision_file):
     raise FileNotFoundError("deployment-decision.json not found.")
 
 with open(decision_file, "r", encoding="utf-8") as f:
-    data = json.load(f)
+    decision = json.load(f)
+
+status = {}
+
+if os.path.exists(status_file):
+
+    with open(status_file, "r", encoding="utf-8") as f:
+        status = json.load(f)
 
 dashboard = f"""
 =====================================
-🤖 AI SECURITY DASHBOARD
+🤖 AUTONOMOUS DEVSECOPS DASHBOARD
 =====================================
 
-Project               : {data['project']}
+Project               : {decision.get("project","Autonomous DevSecOps Framework")}
 
-Security Score        : {data['security_score']}/100
-Overall Risk          : {data['overall_risk']}
-AI Confidence         : {data['confidence']}%
+-------------------------------------
+SECURITY
+-------------------------------------
 
-Deployment Decision   : {data['deployment_decision']}
+Security Score        : {decision.get("security_score",0)}/100
+Overall Risk          : {decision.get("overall_risk","UNKNOWN")}
+AI Confidence         : {decision.get("confidence",0)}%
 
-Bandit Issues         : {data['bandit_issues']}
-Trivy Vulnerabilities : {data['trivy_vulnerabilities']}
-Secrets Found         : {data['gitleaks_secrets']}
+Bandit Issues         : {decision.get("bandit_issues",0)}
+Trivy Vulnerabilities : {decision.get("trivy_vulnerabilities",0)}
+Secrets Found         : {decision.get("gitleaks_secrets",0)}
+
+-------------------------------------
+AI DECISION
+-------------------------------------
+
+Deployment Decision   : {decision.get("deployment_decision","UNKNOWN")}
 
 Reason:
-{data['reason']}
+{decision.get("reason","No reason available.")}
+
+-------------------------------------
+DEPLOYMENT STATUS
+-------------------------------------
+
+Pipeline Status       : {status.get("pipeline","UNKNOWN")}
+
+Deployment Status     : {status.get("status","UNKNOWN")}
+
+Deployment Allowed    : {status.get("deployment_allowed",False)}
+
+Application Health    : {status.get("health","NOT CHECKED")}
+
+Deployment Result     : {status.get("deployment_result","PENDING")}
+
+-------------------------------------
 
 Generated At:
-{data['generated_at']}
+
+{decision.get("generated_at","-")}
+
+=====================================
 """
 
-with open("dashboard-summary.txt", "w", encoding="utf-8") as f:
+with open(
+    "dashboard-summary.txt",
+    "w",
+    encoding="utf-8"
+) as f:
+
     f.write(dashboard)
 
 print(dashboard)
+
 print("✅ dashboard-summary.txt generated successfully.")

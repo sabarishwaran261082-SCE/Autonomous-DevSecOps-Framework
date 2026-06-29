@@ -1,0 +1,11 @@
+{
+    "status": "SUCCESS",
+    "deployment_allowed": true,
+    "decision": "APPROVED",
+    "overall_risk": "LOW",
+    "security_score": 95,
+    "confidence": 99,
+    "reason": "All security checks passed.",
+    "pipeline": "CONTINUE",
+    "timestamp": "2026-06-29 22:31:59.525231"
+}

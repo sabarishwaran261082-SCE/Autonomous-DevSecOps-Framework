@@ -1,0 +1,34 @@
+[
+    {
+        "timestamp": "2026-06-29 22:13:30",
+        "project": "Autonomous DevSecOps Framework",
+        "security_score": 53,
+        "overall_risk": "CRITICAL",
+        "confidence": 99,
+        "deployment_decision": "NOT APPROVED",
+        "deployment_status": "BLOCKED",
+        "pipeline_status": "STOP",
+        "deployment_allowed": false,
+        "reason": "Critical vulnerabilities or secrets detected.",
+        "git_commit": "LOCAL_RUN",
+        "github_run": "LOCAL",
+        "docker_image": "local-image",
+        "ec2_status": "BLOCKED"
+    },
+    {
+        "timestamp": "2026-06-29 22:34:36",
+        "project": "Autonomous DevSecOps Framework",
+        "security_score": 95,
+        "overall_risk": "LOW",
+        "confidence": 99,
+        "deployment_decision": "APPROVED",
+        "deployment_status": "SUCCESS",
+        "pipeline_status": "CONTINUE",
+        "deployment_allowed": true,
+        "reason": "All security checks passed.",
+        "git_commit": "LOCAL_RUN",
+        "github_run": "LOCAL",
+        "docker_image": "local-image",
+        "ec2_status": "DEPLOYED"
+    }
+]
