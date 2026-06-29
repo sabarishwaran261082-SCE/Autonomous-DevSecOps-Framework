@@ -143,6 +143,11 @@ jobs:
         cd app
         python ai_deployment_gate.py
 
+    - name: Generate AI Dashboard
+      run: |
+        cd app
+        python generate_dashboard.py
+
     - name: Upload Security Reports
       uses: actions/upload-artifact@v4
       with:
@@ -154,30 +159,18 @@ jobs:
           app/security-summary.json
           app/ai-security-report.md
           app/deployment-decision.json
-          
+
         if-no-files-found: warn
 
     - name: Generate Notification Summary
       run: |
-        echo "🚀 Autonomous DevSecOps Framework" > summary.txt
-        echo "" >> summary.txt
-        echo "📦 Repository : ${{ github.repository }}" >> summary.txt
-        echo "🌿 Branch     : ${{ github.ref_name }}" >> summary.txt
-        echo "🔖 Commit     : ${{ github.sha }}" >> summary.txt
-        echo "" >> summary.txt
-        echo "🧪 Tests      : PASSED" >> summary.txt
-        echo "🔒 Bandit     : Completed" >> summary.txt
-        echo "🐳 Trivy      : Completed" >> summary.txt
-        echo "🔑 Gitleaks   : Completed" >> summary.txt
-        echo "🤖 AI Report  : Generated" >> summary.txt
-        echo "" >> summary.txt
-        echo "🛡 Security Gate : PASSED" >> summary.txt
-        echo "" >> summary.txt
-        echo "🚀 Deployment : EC2 Successful" >> summary.txt
-        echo "" >> summary.txt
-        echo "🔗 Run : https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> summary.txt
-        echo "" >> summary.txt
-        echo "⏰ Time : $(date -u)" >> summary.txt
+       cp app/dashboard-summary.txt summary.txt
+
+       echo "" >> summary.txt
+       echo "Repository : ${{ github.repository }}" >> summary.txt
+       echo "Branch     : ${{ github.ref_name }}" >> summary.txt
+       echo "Commit     : ${{ github.sha }}" >> summary.txt
+       echo "Run        : https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> summary.txt
 
     - name: Upload Notification Summary
       uses: actions/upload-artifact@v4

@@ -83,13 +83,11 @@ response = requests.post(
 if response.status_code == 200:
 
     result = response.json()
-
     ai_report = result["choices"][0]["message"]["content"]
 
     print("\n===================================")
     print("AI SECURITY REPORT")
     print("===================================\n")
-
     print(ai_report)
 
     # -----------------------------------
@@ -105,8 +103,19 @@ if response.status_code == 200:
     # Read Security Metrics
     # -----------------------------------
     bandit_issues = security_summary.get("bandit", {}).get("total_issues", 0)
-    trivy_vulnerabilities = security_summary.get("trivy", {}).get("total_vulnerabilities", 0)
-    gitleaks_secrets = security_summary.get("gitleaks", {}).get("total_secrets", 0)
+
+    trivy_vulnerabilities = security_summary.get("trivy", {}).get(
+        "total_vulnerabilities", 0
+    )
+
+    gitleaks_secrets = security_summary.get("gitleaks", {}).get(
+        "total_secrets", 0
+    )
+
+    critical = security_summary.get("trivy", {}).get("critical", 0)
+    high = security_summary.get("trivy", {}).get("high", 0)
+    medium = security_summary.get("trivy", {}).get("medium", 0)
+    low = security_summary.get("trivy", {}).get("low", 0)
 
     # -----------------------------------
     # Calculate Security Score
@@ -114,13 +123,16 @@ if response.status_code == 200:
     security_score = 100
 
     security_score -= bandit_issues * 5
-    security_score -= trivy_vulnerabilities * 10
+    security_score -= critical * 20
+    security_score -= high * 10
+    security_score -= medium * 5
+    security_score -= low * 2
     security_score -= gitleaks_secrets * 20
 
     security_score = max(security_score, 0)
 
     # -----------------------------------
-    # Default Deployment Decision
+    # Default Deployment Object
     # -----------------------------------
     deployment = {
         "project": "Autonomous DevSecOps Framework",
@@ -131,7 +143,7 @@ if response.status_code == 200:
         "confidence": 98,
 
         "deployment_decision": "APPROVED",
-        "reason": "Low overall risk.",
+        "reason": "No critical vulnerabilities detected.",
 
         "bandit_issues": bandit_issues,
         "trivy_vulnerabilities": trivy_vulnerabilities,
@@ -139,30 +151,35 @@ if response.status_code == 200:
     }
 
     # -----------------------------------
-    # AI Decision Logic
+    # AI Deployment Gate Logic
     # -----------------------------------
-    report_upper = ai_report.upper()
+    if critical > 0 or gitleaks_secrets > 0:
 
-    if "CRITICAL" in report_upper:
         deployment["deployment_decision"] = "NOT APPROVED"
         deployment["overall_risk"] = "CRITICAL"
-        deployment["security_score"] = min(deployment["security_score"], 20)
         deployment["confidence"] = 99
-        deployment["reason"] = "Critical vulnerabilities detected."
+        deployment["reason"] = "Critical vulnerabilities or secrets detected."
 
-    elif "HIGH RISK" in report_upper:
-        deployment["deployment_decision"] = "NOT APPROVED"
+    elif high > 0:
+
+        deployment["deployment_decision"] = "APPROVED WITH CAUTION"
         deployment["overall_risk"] = "HIGH"
-        deployment["security_score"] = min(deployment["security_score"], 45)
         deployment["confidence"] = 97
-        deployment["reason"] = "High-risk vulnerabilities detected."
+        deployment["reason"] = "High severity vulnerabilities detected."
 
-    elif "MEDIUM" in report_upper:
+    elif medium > 0 or bandit_issues > 0:
+
         deployment["deployment_decision"] = "APPROVED WITH CAUTION"
         deployment["overall_risk"] = "MEDIUM"
-        deployment["security_score"] = min(deployment["security_score"], 75)
         deployment["confidence"] = 95
         deployment["reason"] = "Medium severity findings detected."
+
+    else:
+
+        deployment["deployment_decision"] = "APPROVED"
+        deployment["overall_risk"] = "LOW"
+        deployment["confidence"] = 98
+        deployment["reason"] = "No critical vulnerabilities detected."
 
     # -----------------------------------
     # Save Deployment Decision
@@ -173,5 +190,6 @@ if response.status_code == 200:
     print("✅ deployment-decision.json generated successfully.")
 
 else:
+
     print("Error:", response.status_code)
     print(response.text)
